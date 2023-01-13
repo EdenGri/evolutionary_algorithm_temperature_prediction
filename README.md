@@ -1,27 +1,9 @@
-
-<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 0; ALERTS: 11.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-<a href="#gdcalert2">alert2</a>
-<a href="#gdcalert3">alert3</a>
-<a href="#gdcalert4">alert4</a>
-<a href="#gdcalert5">alert5</a>
-<a href="#gdcalert6">alert6</a>
-<a href="#gdcalert7">alert7</a>
-<a href="#gdcalert8">alert8</a>
-<a href="#gdcalert9">alert9</a>
-<a href="#gdcalert10">alert10</a>
-<a href="#gdcalert11">alert11</a>
-
-<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
+<!-- You have some errors, warnings, or alerts. If you are using reckless mode, turn it off to see inline alerts.
+* ERRORs: 0
+* WARNINGs: 0
+* ALERTS: 11 -->
 
 <h2>
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image1.png "image_tooltip")
 </h2>
 
@@ -160,10 +142,6 @@ At the beginning of the implementation, we considered only the [0, 1,-1] constan
 The “terminal set”  is the leaves in the tree.
 
 
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image2.png "image_tooltip")
 
 
@@ -184,10 +162,6 @@ The Ramped half and half method start by creating a set of "half and half" trees
 **Tree depth:** During the implementation, we see that the height of an individual's Function tree significantly impacts its performance. When the tree was too deep, it prone to overfitting, while when it was too shallow, it did not have enough complexity to solve the problem effectively. Ultimately, we choose the initial depth of 2 to 7 after a few different runnings.
 
 
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image3.png "image_tooltip")
 
 
@@ -202,10 +176,6 @@ In our case, the fitness function is used to evaluate the fitness of each indivi
 Our fitness function is Mean Absolute Error (MAE). MAE is calculated as the average absolute difference between predicted and actual temperature values (predicted - self.df[target], actual -  individual.execute(x=x, y=y, z=z)). The absolute difference between the predicted and real value is taken to handle the negative values of difference. 
 
 todo—-------------------comlete
-
-
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image4.png "image_tooltip")
@@ -241,10 +211,6 @@ A tournament size of 2 allows for a balance between exploration and exploitation
 We configured the Tournament Selection with a probability of 1.
 
 
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image5.png "image_tooltip")
 
 
@@ -267,10 +233,6 @@ We defined genetic operators to be applied in each generation:
 * ERC Mutation with a probability of 5% 
 
 (The total of probabilities does not complete to 100% because the operators are applied one after the other, in a linear sequence).
-
-
-
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image6.png "image_tooltip")
@@ -302,10 +264,6 @@ For unsering that question, we ran experiment with 500 generations for each fitn
 
 
 
-
-<p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image7.png "image_tooltip")
 
 
@@ -324,10 +282,6 @@ At first, we performed evolutionary experiments with parameters taken from the S
 In the following graph you can see the difference between the findings of the two experiments:
 
 
-
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image8.png "image_tooltip")
 
 
@@ -343,10 +297,6 @@ The terminal set is a set of values or variables that can be used as leaf nodes 
 We can see in the following chart the chosen terminal set doesn’t bring a big change. However, the change made the tree more readable and performanse is better.
 
 
-
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image9.png "image_tooltip")
 
 
@@ -355,10 +305,6 @@ We can see in the following chart the chosen terminal set doesn’t bring a big 
 The tournament size in an evaluation algorithm refers to the number of individuals that are selected to compete in a tournament to determine which individual will be selected for reproduction. A larger tournament size will result in a more thorough evaluation of the population, as more individuals will be compared to one another. However, a larger tournament size will also increase the computational cost of the algorithm. So, when choosing the tournament size, it is a trade-off between the thoroughness of the evaluation and the computational cost of the algorithm.
 
 In our algorithm, we chose to use a tournament in size 4. 
-
-<p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image10.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image10.png "image_tooltip")
 
 
@@ -375,10 +321,6 @@ The maximum generation is a parameter that specifies the maximum number of itera
 We choose to set the max generation value to 1000. We are aware that increasing this parameter might even get a better results, but we chose not to do this due to resources and running time reasons.
 
 Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found:
-
-
-
-<p id="gdcalert11" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image11.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert12">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image11.png "image_tooltip")
