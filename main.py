@@ -33,7 +33,45 @@ def f_mod(x, y):
     """protected division: if abs(y) > 0.001 return x/y else return 0"""
     with np.errstate(divide='ignore', invalid='ignore'):
         return np.where(np.abs(y) > 0.001, np.mod(x, y), 0.)
+    
+def _userInterface(self):
+    print("Hi, I'm going to evaluate using evolutionary algorithm the tempature. You can decide to enter your own data or to use our default ones")
+    userInput = input("Would you like to enter your own data? yes/no")
+    if userInput.__eq__("yes") :
+        return False
+    return True
 
+def _getInitDepth(useDefaultData):
+    if useDefaultData:
+        return (2, 7)
+    minDepth = input("choose minimum of initial depth")
+    maxDepth = input("choose maximum of initial depth")
+    return (minDepth,maxDepth)
+
+def _getBloatWeight(useDefaultData):
+    if useDefaultData:
+        return 0.0001
+    return input("choose bloat weight")
+
+def _getPopulation_size(useDefaultData):
+    if useDefaultData:
+        return 300
+    return input("choose population size")
+
+def _getMax_generation(useDefaultData):
+    if useDefaultData:
+        return 500
+    return input("choose max genertation")
+
+def _check_tempature_of_dates_from_user():
+    print("Enter a date you want to check in this format DD.MM.YYYY, when you want to enter stop")
+    while True:
+        user_input = input("Enter your input: ")
+        if user_input == "stop":
+            break
+        else:
+            date = user_input.split(".")
+            print(f'The tempature Expected is: {algo.execute(x=date[0], y=date[1], z=date[2])}')
 
 class SymbolicRegressionEvaluator(SimpleIndividualEvaluator):
     """
@@ -55,7 +93,6 @@ class SymbolicRegressionEvaluator(SimpleIndividualEvaluator):
         x, y, z = self.df['x'], self.df['y'], self.df['z']
         return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
 
-
 if __name__ == '__main__':
     # each node of the GP tree is either a terminal or a function
     # function nodes, each has two children (which are its operands)
@@ -66,12 +103,15 @@ if __name__ == '__main__':
                          f_tan, f_mod]
     # terminal set, consisted of variables and constants
     terminal_set = ['x', 'y', 'z', 0, 1, -1, 5, 10]
+
+    useDefaultData = _userInterface()
+
     algo = SimpleEvolution(
-        Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=(2, 7),
+        Subpopulation(creators=RampedHalfAndHalfCreator(_getInitDepth(useDefaultData),
                                                         terminal_set=terminal_set,
                                                         function_set=my_full_function_set,
-                                                        bloat_weight=0.0001),
-                      population_size=300,
+                                                        bloat_weight=_getBloatWeight(useDefaultData)),
+                      population_size=_getPopulation_size(useDefaultData),
                       # user-defined fitness evaluation method
                       evaluator=SymbolicRegressionEvaluator(),
                       # minimization problem (fitness is MAE), so higher fitness is worse
@@ -90,13 +130,15 @@ if __name__ == '__main__':
                       ),
         breeder=SimpleBreeder(),
         max_workers=4,
-        max_generation=500,
+        max_generation=_getMax_generation(useDefaultData),
         # random_seed=0,
         termination_checker=ThresholdFromTargetTerminationChecker(optimal=0, threshold=0.001),
         statistics=BestAverageWorstStatistics()
     )
     #algo = SimpleEvolution(Subpopulation(SymbolicRegressionEvaluator()))
     algo.evolve()
+
+    _check_tempature_of_dates_from_user()
     print(f'algo.execute(x=2,y=3,z=4): {algo.execute(x=1, y=1, z=2013)}')
     print(f'algo.execute(x=2,y=3,z=4): {algo.execute(x=2, y=1, z=2013)}')
     print(f'algo.execute(x=2,y=3,z=4): {algo.execute(x=3, y=1, z=2013)}')
