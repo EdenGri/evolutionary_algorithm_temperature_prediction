@@ -34,7 +34,7 @@ def f_mod(x, y):
     with np.errstate(divide='ignore', invalid='ignore'):
         return np.where(np.abs(y) > 0.001, np.mod(x, y), 0.)
     
-def _userInterface(self):
+def _userInterface():
     print("Hi, I'm going to evaluate using evolutionary algorithm the tempature. You can decide to enter your own data or to use our default ones")
     userInput = input("Would you like to enter your own data? yes/no")
     if userInput.__eq__("yes") :
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     useDefaultData = _userInterface()
 
     algo = SimpleEvolution(
-        Subpopulation(creators=RampedHalfAndHalfCreator(_getInitDepth(useDefaultData),
+        Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=_getInitDepth(useDefaultData),
                                                         terminal_set=terminal_set,
                                                         function_set=my_full_function_set,
                                                         bloat_weight=_getBloatWeight(useDefaultData)),
