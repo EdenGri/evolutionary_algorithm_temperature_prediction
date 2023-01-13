@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-import time
-import datetime
 from eckity.algorithms.simple_evolution import SimpleEvolution
 from eckity.breeders.simple_breeder import SimpleBreeder
 from eckity.creators.gp_creators.ramped_hh import RampedHalfAndHalfCreator
@@ -14,56 +12,50 @@ from eckity.genetic_operators.selections.tournament_selection import TournamentS
 from eckity.statistics.best_average_worst_statistics import BestAverageWorstStatistics
 from eckity.subpopulation import Subpopulation
 from eckity.termination_checkers.threshold_from_target_termination_checker import ThresholdFromTargetTerminationChecker
-from examples.treegp.non_sklearn_mode.symbolic_regression.sym_reg_evaluator import SymbolicRegressionEvaluator
-
-
-def _target_func(x, y, z):
-    """
-    True regression function, the individuals
-    Parameters
-    ----------
-    x, y, z: float
-        Values to the parameters of the function.
-    """
-    return x + 2 * y + 3 * z
 
 
 def f_mod(x, y):
     """x%y"""
-    """protected division: if abs(y) > 0.001 return x/y else return 0"""
+    """protected modulo: if abs(y) > 0.001 return x%y else return 0"""
     with np.errstate(divide='ignore', invalid='ignore'):
         return np.where(np.abs(y) > 0.001, np.mod(x, y), 0.)
-    
-def _userInterface():
+
+
+def user_interface():
     print("Hi, I'm going to evaluate using evolutionary algorithm the tempature. You can decide to enter your own data or to use our default ones")
-    userInput = input("Would you like to enter your own data? yes/no")
-    if userInput.__eq__("yes") :
+    user_input = input("Would you like to enter your own data? yes/no")
+    if user_input.__eq__("yes"):
         return False
     return True
 
-def _getInitDepth(useDefaultData):
-    if useDefaultData:
-        return (2, 7)
-    minDepth = input("choose minimum of initial depth")
-    maxDepth = input("choose maximum of initial depth")
-    return (minDepth,maxDepth)
 
-def _getBloatWeight(useDefaultData):
-    if useDefaultData:
+def get_init_depth(use_default_data):
+    if use_default_data:
+        return 2, 7
+    min_depth = int(input("choose minimum of initial depth"))
+    max_depth = int(input("choose maximum of initial depth"))
+    return min_depth, max_depth
+
+
+def get_bloat_weight(use_default_data):
+    if use_default_data:
         return 0.0001
-    return input("choose bloat weight")
+    return float(input("choose bloat weight"))
 
-def _getPopulation_size(useDefaultData):
-    if useDefaultData:
+
+def get_population_size(use_default_data):
+    if use_default_data:
         return 300
-    return input("choose population size")
+    return int(input("choose population size"))
 
-def _getMax_generation(useDefaultData):
-    if useDefaultData:
+
+def get_max_generation(use_default_data):
+    if use_default_data:
         return 500
-    return input("choose max genertation")
+    return int(input("choose max generation"))
 
-def _check_tempature_of_dates_from_user():
+
+def check_temperature_of_dates_from_user():
     print("Enter a date you want to check in this format DD.MM.YYYY, when you want to enter stop")
     while True:
         user_input = input("Enter your input: ")
@@ -71,49 +63,42 @@ def _check_tempature_of_dates_from_user():
             break
         else:
             date = user_input.split(".")
-            print(f'The tempature Expected is: {algo.execute(x=date[0], y=date[1], z=date[2])}')
+            print(f'The temperature Expected is: {algo.execute(x=date[0], y=date[1], z=date[2])}')
 
-class SymbolicRegressionEvaluator(SimpleIndividualEvaluator):
+
+class TemperatureEvaluator(SimpleIndividualEvaluator):
     """
     Compute the fitness of an individual.
     """
 
     def __init__(self):
         super().__init__()
-
-        # np.random.seed(0)
-        #data = np.random.uniform(-100, 100, size=(200, 3))
-        #data = pd.read_csv("data.csv")
         data = pd.read_csv("temperature_data.csv")
-        self.df = pd.DataFrame(data.values, columns=['x', 'y', 'z', 'target'])
-        #self.df = pd.DataFrame(data, columns=['x', 'y', 'z'])
-        #self.df['target'] = _target_func(self.df['x'], self.df['y'], self.df['z'])
+        self.df = pd.DataFrame(data.values, columns=['month', 'day', 'year', 'target'])
 
     def _evaluate_individual(self, individual):
-        x, y, z = self.df['x'], self.df['y'], self.df['z']
-        return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
+        month, day, year = self.df['month'], self.df['day'], self.df['year']
+        return np.mean(np.abs(individual.execute(month=month, day=day, year=year) - self.df['target']))
+
 
 if __name__ == '__main__':
     # each node of the GP tree is either a terminal or a function
     # function nodes, each has two children (which are its operands)
 
-    function_set = [f_add, f_mul, f_sub, f_div, f_sqrt, f_log, f_abs, f_max, f_min, f_inv, f_neg]
-
-    my_full_function_set = [f_add, f_sub, f_mul, f_div, f_sqrt, f_log, f_abs, f_neg, f_inv, f_max, f_min, f_sin, f_cos,
-                         f_tan, f_mod]
+    function_set = [f_add, f_sub, f_mul, f_div, f_sqrt, f_log, f_abs, f_neg, f_inv, f_max, f_min, f_sin, f_cos, f_tan, f_mod]
     # terminal set, consisted of variables and constants
-    terminal_set = ['x', 'y', 'z', 0, 1, -1, 5, 10]
+    terminal_set = ['month', 'day', 'year', 0, 1, -1, 5, 10]
 
-    useDefaultData = _userInterface()
+    useDefaultData = user_interface()
 
     algo = SimpleEvolution(
-        Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=_getInitDepth(useDefaultData),
+        Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=get_init_depth(useDefaultData),
                                                         terminal_set=terminal_set,
-                                                        function_set=my_full_function_set,
-                                                        bloat_weight=_getBloatWeight(useDefaultData)),
-                      population_size=_getPopulation_size(useDefaultData),
+                                                        function_set=function_set,
+                                                        bloat_weight=get_bloat_weight(useDefaultData)),
+                      population_size=get_population_size(useDefaultData),
                       # user-defined fitness evaluation method
-                      evaluator=SymbolicRegressionEvaluator(),
+                      evaluator=TemperatureEvaluator(),
                       # minimization problem (fitness is MAE), so higher fitness is worse
                       higher_is_better=False,
                       elitism_rate=0.05,
@@ -130,15 +115,13 @@ if __name__ == '__main__':
                       ),
         breeder=SimpleBreeder(),
         max_workers=4,
-        max_generation=_getMax_generation(useDefaultData),
-        # random_seed=0,
+        max_generation=get_max_generation(useDefaultData),
         termination_checker=ThresholdFromTargetTerminationChecker(optimal=0, threshold=0.001),
         statistics=BestAverageWorstStatistics()
     )
-    #algo = SimpleEvolution(Subpopulation(SymbolicRegressionEvaluator()))
     algo.evolve()
 
-    _check_tempature_of_dates_from_user()
+    check_temperature_of_dates_from_user()
     print(f'algo.execute(x=2,y=3,z=4): {algo.execute(x=1, y=1, z=2013)}')
     print(f'algo.execute(x=2,y=3,z=4): {algo.execute(x=2, y=1, z=2013)}')
     print(f'algo.execute(x=2,y=3,z=4): {algo.execute(x=3, y=1, z=2013)}')
