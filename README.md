@@ -1,5 +1,3 @@
-![](RackMultipart20230113-1-ha041_html_6dfb562b072a8879.png)
-
 # Mini – Project
 
 # on
@@ -21,6 +19,20 @@ Prof. Moshe Sipper
 December 2022
 
 ## Table of Contents
+- [Introduction](#introduction)
+- [Problem Description](#problem-description)
+- [Genetic Programming](#genetic-programming)
+  - [Individual](#individual)
+  - [Function set](#function-set)
+  - [Terminal set](#terminal-set)
+  - [Initialize population](#initialize-population)
+  - [Creating individuals](#creating-individuals)
+  - [The evolution](#The evolution)
+    - [Fitness](#fitness)
+    - [Selection](#selection)
+    - [Breeding process](#breeding-process)
+- [Experiments & Findings](#experiments-&-findings)
+- [Conclusionsn](#conclusionsn)
 
 ## Introduction
 Our project focuses on predicting the weather using an evaluation algorithm.
@@ -124,80 +136,115 @@ on the tree's height (7). After we added to [10, 5] constants, our results impro
 The "terminal set" is the leaves in the tree.
 
 ![](./photos/function_tree.png)
+<br /> *This diagram represents an example of an individual when the blue squares are nodes from the function set, and 
+the orange circles are leaves from the terminal set.*
 
-This diagram represents an example of an individual when the blue squares are nodes from the function set, and the orange 
-circles are leaves from the terminal set.
+###Initialize population:
 
-###initialize subpopulation:
+A population is a group of individuals that are being evolved through the use of genetic algorithms. The population as a 
+whole represents a variety of possible solutions to this problem. 
+<br />Our subpopulation is a collection of "Function Tree" GPs.
 
-A population is a group of individuals that are being evolved through the use of genetic algorithms. The population as a whole represents a variety of possible solutions to this problem. Our subpopulation is a collection of "Function Tree" GPs.
+####Creating individuals:
+In creating the individuals, we have created ramped half and half trees with an init depth of 2 to 7. We added bloat 
+values to slow down the tree's growth, and we chose our population to contain 300 individuals.
 
-####Creating individuals
-
-In creating the individuals, we have created ramped half and half trees with an init depth of 2 to 7. We added bloat values to slow down the tree's growth, and we chose our population to contain 300 individuals.
-
-**Initialization method:** Ramped half and half trees are used to generate the initial population of individuals (GA) for generating a function that will predict temperature. We chose this function because it is a good initialization method for symbolic regression problems that we can transform into our problem.
-The Ramped half and half method start by creating a set of "half and half" trees, where each tree has a random number of nodes, with the restriction that the number of terminal nodes must be less than or equal to the number of non-terminal nodes. This is done to ensure that the initial population is diverse and has a balance of simple and complex individuals. The method then "ramps" the size of the trees by gradually increasing the maximum depth of the trees until the desired size is reached. This gradually increases complexity in the initial population, allowing the GA to explore a wide range of solutions and avoid getting stuck in local optima.
+**Initialization method:** Ramped half and half trees are used to generate the initial population of individuals (GA) for 
+generating a function that will predict temperature. We chose this function because it is a good initialization method for 
+symbolic regression problems that we can transform into our problem.
+The Ramped half and half method start by creating a set of "half and half" trees, where each tree has a random number of 
+nodes, with the restriction that the number of terminal nodes must be less than or equal to the number of non-terminal nodes. 
+This is done to ensure that the initial population is diverse and has a balance of simple and complex individuals. The 
+method then "ramps" the size of the trees by gradually increasing the maximum depth of the trees until the desired size 
+is reached. This gradually increases complexity in the initial population, allowing the GA to explore a wide range of 
+solutions and avoid getting stuck in local optima.
  
-**Tree depth:** During the implementation, we see that the height of an individual's Function tree significantly impacts its performance. When the tree was too deep, it prone to overfitting, while when it was too shallow, it did not have enough complexity to solve the problem effectively. Ultimately, we choose the initial depth of 2 to 7 after a few different runnings.
+**Tree depth:** During the implementation, we see that the height of an individual's Function Tree significantly impacts 
+its performance. When the tree was too deep, it prone to overfitting, while when it was too shallow, it did not have enough 
+complexity to solve the problem effectively. Ultimately, we choose the initial depth of 2 to 7 after a few different runnings.
 
-![](RackMultipart20230113-1-ha041_html_a904b3b1e81e1d34.png)
-
+```python
+Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=_getInitDepth(useDefaultData),
+                                                terminal_set=terminal_set,
+                                                function_set=my_full_function_set,
+                                                bloat_weight=_getBloatWeight(useDefaultData)),
+                      population_size=_getPopulation_size(useDefaultData),
+```
 ###The evolution:
- 
-####fitness:
-The fitness function uses us to measure the quality or effectiveness of a particular solution or individual in a population. The fitness function returns a value representing how well an individual's genetically suited to solving a given problem or achieving a specific goal.
 
-In our case, the fitness function is used to evaluate the fitness of each individual in the population. It is typically designed to be specific to solve the problem of predicting the temperature when given a date.
+####Fitness:
+The fitness function uses us to measure the quality or effectiveness of a particular solution or individual in a population. 
+The fitness function returns a value representing how well an individual's genetically suited to solving a given problem 
+or achieving a specific goal.
+<br />In our case, the fitness function is used to evaluate the fitness of each individual in the population. It is typically 
+designed to be specific to solve the problem of predicting the temperature when given a date. Our fitness function is Mean 
+Absolute Error (MAE). MAE is calculated as the average absolute difference between predicted and actual temperature values 
+(predicted - self.df[target], actual - individual.execute(x=x, y=y, z=z)). The absolute 
+difference between the predicted and real value is taken to handle the negative values of difference.
 
-Our fitness function is Mean Absolute Error (MAE). MAE is calculated as the average absolute difference between predicted and actual temperature values (predicted - self.df[target], actual - individual.execute(x=x, y=y, z=z)). The absolute difference between the predicted and real value is taken to handle the negative values of difference.
+![](photos/mean-absolute-error.png)
 
-todo—-------------------comlete
+Since, in our case, the fitness function acts like a loss function, we want to minimize our fitness function. 
+```python
+higher_is_better=False
+```
 
-![](RackMultipart20230113-1-ha041_html_6876d0101880582e.png)
-
-Since, in our case, the fitness function acts like a loss function, we want to minimize our fitness function. higher\_is\_better=False
-
-We implement the \_evaluate\_individual method, which evaluates a **fitness** score for an individual:
-
-def \_evaluate\_individual(self, individual):
-
-x, y, z = self.df['x'], self.df['y'], self.df['z']
-
-return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
+We implement the _evaluate_individual method, which evaluates a **fitness** score for an individual:
+```python
+def _evaluate_individual(self, individual):
+    x, y, z = self.df['x'], self.df['y'], self.df['z']
+    return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
+```
 
 ####Selection:
 
-Selection refers to the process of choosing which individuals from a population will be selected to participate in the reproduction process to generate the next generation. The individuals that are selected in our project have better fitness values (in our case, lower fitness values), meaning they are better suited to solving the problem at hand.
+Selection refers to the process of choosing which individuals from a population will be selected to participate in the 
+process to generate the next generation. The individuals that are selected in our project have better fitness values 
+(in our case, lower fitness values), meaning they are better suited to solving the problem at hand.
 
-We chose that our selection implemented by using tournament selection. We decided to use tournament selection since it allows the algorithm to keep a diverse population while allowing the best individuals to reproduce.
+We chose that our selection implemented by using tournament selection. We decided to use tournament selection since it 
+allows the algorithm to keep a diverse population while allowing the best individuals to reproduce.
+<br />Tournament selection involves selecting a small number of individuals from the population at random and then comparing 
+their fitness values. The individual with the better fitness value is then selected as the "winner" and is given the 
+opportunity to reproduce and pass on their genetic information to the next generation.
 
-Tournament selection involves selecting a small number of individuals from the population at random and then comparing their fitness values. The individual with the better fitness value is then selected as the "winner" and is given the opportunity to reproduce and pass on their genetic information to the next generation.
-
-The number of individuals selected for the tournament is called the "tournament size". We chose a tournament size of 4 since we found that the size 4 is a good balance between exploration and exploitation. The size of 4 provided us a stronger selection pressure, which helped to converge on an optimal solution more quickly.
+The number of individuals selected for the tournament is called the "tournament size". We chose a tournament size of 4 
+since we found that the size 4 is a good balance between exploration and exploitation. The size of 4 provided us a stronger 
+selection pressure, which helped to converge on an optimal solution more quickly.
 
 We configured the Tournament Selection with a probability of 1.
-
-![](RackMultipart20230113-1-ha041_html_a711592dce83bbd.png)
-
-The selection process is a crucial step in the genetic algorithm as it determines which individuals will pass on their genetic information to the next generation.
+```python
+selection_methods=[
+    # (selection method, selection probability) tuple
+    (TournamentSelection(tournament_size=4, higher_is_better=False), 1)
+]
+```
+The selection process is a crucial step in the genetic algorithm as it determines which individuals will pass on their 
+genetic information to the next generation.
 
 ####Breeding process:
 
 We set the hyperparameters for the breeding process:
 
-- We chose an elitism rate that determines that 5% of the population's top individuals will be copied as-is to the next generation in each generation.
+- We chose an elitism rate that determines that 5% of the population's top individuals will be copied as-is to the next 
+generation in each generation.
 
 We defined genetic operators to be applied in each generation:
-
 - Subtree Crossover with a probability of 90%
 - Subtree Mutation with a probability of 20%
 - ERC Mutation with a probability of 5%
 
 (The total of probabilities does not complete to 100% because the operators are applied one after the other, in a linear sequence).
 
-![](RackMultipart20230113-1-ha041_html_b25c7eb3af573461.png)
-
+```python
+elitism_rate=0.05,
+# genetic operators sequence to be applied in each generation
+operators_sequence=[
+    SubtreeCrossover(probability=0.9, arity=2),
+    SubtreeMutation(probability=0.2, arity=1),
+    ERCMutation(probability=0.05, arity=1)
+],
+```
 
 ## Experiments & Findings
 
