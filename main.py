@@ -4,7 +4,7 @@ from eckity.algorithms.simple_evolution import SimpleEvolution
 from eckity.breeders.simple_breeder import SimpleBreeder
 from eckity.creators.gp_creators.ramped_hh import RampedHalfAndHalfCreator
 from eckity.evaluators.simple_individual_evaluator import SimpleIndividualEvaluator
-from eckity.genetic_encodings.gp.tree.functions import full_function_set, f_add, f_mul, f_sub, f_div, f_sqrt, f_log, f_abs, f_max, f_min, f_inv, f_neg, f_sin, f_cos, f_tan
+from eckity.genetic_encodings.gp.tree.functions import f_add, f_mul, f_sub, f_div, f_sqrt, f_log, f_abs, f_max, f_min, f_inv, f_neg, f_sin, f_cos, f_tan
 from eckity.genetic_operators.crossovers.subtree_crossover import SubtreeCrossover
 from eckity.genetic_operators.mutations.erc_mutation import ERCMutation
 from eckity.genetic_operators.mutations.subtree_mutation import SubtreeMutation
@@ -63,7 +63,7 @@ def check_temperature_of_dates_from_user():
             break
         else:
             date = user_input.split(".")
-            print(f'The temperature Expected is: {algo.execute(x=date[0], y=date[1], z=date[2])}')
+            print(f'The temperature Expected is: {algo.execute(month=date[0], day=date[1], year=date[2])}')
 
 
 class TemperatureEvaluator(SimpleIndividualEvaluator):
