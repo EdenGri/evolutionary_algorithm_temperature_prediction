@@ -35,7 +35,7 @@ In some areas, people use weather forecasts to determine what to wear on a given
 
 In this project we will explore the weather in X and try to forecast the upcoming weather.
 
-Problem Description
+##Problem Description
 
 **The Problem:** Development of a function that predicts the weather of a given date.
 
@@ -68,21 +68,23 @@ Problem Description
 - Weather is a cyclical process - one of the reasons is that major changes are initiated by changes in the earth's orbit around the sun. The orbital changes occur slowly over time influencing where solar radiation is received on earth's surface during different seasons. By themselves, these changes in the distribution of solar radiation are not strong enough to cause large temperature changes.
 - We decided to predict the weather using the temperature because this is one of the main factors we usually look at when deciding how the weather will be
 
-Genetic Programming
+##Genetic Programming
 
-**Individual:**
+###Individual:
 
-In the evolutionary algorithm, an individual is a single potential solution to a given problem. In our case, the problem is by a given date to predicate the temperature on this date. We want to solve this problem by generating a mathematical function approximating the weather. So our single solution is a mathematical function.
+In the evolutionary algorithm, an individual is a single potential solution to a given problem. In our case, the problem 
+is by a given date to predicate the temperature on this date. We want to solve this problem by generating a mathematical 
+function approximating the weather. So our single solution is a mathematical function.
+<br />We represent the mathematical function as a "Function Tree" GP. In the "Function Tree" the inner nodes will be from 
+the "function set" and the leaves from the "terminal set".
 
-We represent the mathematical function as a "Function Tree" GP. In the "Function Tree" the inner nodes will be from the "function set" and the leaves from the "terminal set".
+###Function set:
 
-**Function set:**
-
-In the context of genetic programming, a "function set" is a set of functions that can be used to build the solution to a given problem. The "function set" is used to build the initial population of solutions, which evolved over time.
-
-In our system, the "function set" is pre-defined and fixed and consists of a set of basic mathematical functions that can be combined to build more complex solutions.
-
-Our "function set" includes the following basic arithmetic functions:
+In the context of genetic programming, a "function set" is a set of functions that can be used to build the solution to 
+a given problem. The "function set" is used to build the initial population of solutions, which evolved over time.
+<br />In our system, the "function set" is pre-defined and fixed and consists of a set of basic mathematical functions 
+that can be combined to build more complex solutions.
+<br />Our "function set" includes the following basic arithmetic functions:
 
 - addition - "f\_add"
 - subtraction - "f\_sub"
@@ -102,46 +104,48 @@ Our "function set" includes the following basic arithmetic functions:
 
 The "function set" is the set of all possible internal nodes of the tree.
 
-Besides the arithmetic functions that we have in GP we add the "f\_mod" function. We wanted to add cyclic elements in our individuals since we know the weather has cyclic elements.
+Besides the arithmetic functions that we have in EC-Kity, we add the "f_mod" function. Since we wanted to add cyclic elements 
+in our individuals since we know the weather has cyclic elements.
 
 ……………………todo: mod function……………………
 
-**Terminal set:**
+###Terminal set:
 
-A "terminal set" is a set of values that do not change and are pre-oriented. The "terminal set" can be used as inputs to the functions in the "function set", and they are used to build the initial population of solutions, which developed.
-
-In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables [..........todo complete………………………].
+A "terminal set" is a set of values that do not change and are pre-oriented. The "terminal set" can be used as inputs to 
+the functions in the "function set", and they are used to build the initial population of solutions, which developed.
+<br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables[..........todo complete………………………].
 
 ……………………………..to add our terminal set……………….
 
-At the beginning of the implementation, we considered only the [0, 1,-1] constants, but we didn't get good results. The cause was it was hard to generate common temperatures such as 35 celsius since it requiere a high tree, and we got limitations on the tree's height (7). After we added to [10, 5] constants, our results improved.
+At the beginning of the implementation, we considered only the [0, 1,-1] constants, but we didn't get good results. The 
+cause was it was hard to generate common temperatures such as 35 celsius since it requiere a high tree, and we got limitations 
+on the tree's height (7). After we added to [10, 5] constants, our results improved.
 
 The "terminal set" is the leaves in the tree.
 
-![](RackMultipart20230113-1-ha041_html_c6178fe3d2b78f9b.png)
+![](./photos/function_tree.png)
 
-This diagram represents an example of an individual when the blue squares are nodes from the function set, and the orange circles are leaves from the terminal set.
+This diagram represents an example of an individual when the blue squares are nodes from the function set, and the orange 
+circles are leaves from the terminal set.
 
-**initialize subpopulation:**
+###initialize subpopulation:
 
 A population is a group of individuals that are being evolved through the use of genetic algorithms. The population as a whole represents a variety of possible solutions to this problem. Our subpopulation is a collection of "Function Tree" GPs.
 
-**Creating individuals**
+####Creating individuals
 
 In creating the individuals, we have created ramped half and half trees with an init depth of 2 to 7. We added bloat values to slow down the tree's growth, and we chose our population to contain 300 individuals.
 
 **Initialization method:** Ramped half and half trees are used to generate the initial population of individuals (GA) for generating a function that will predict temperature. We chose this function because it is a good initialization method for symbolic regression problems that we can transform into our problem.
-
 The Ramped half and half method start by creating a set of "half and half" trees, where each tree has a random number of nodes, with the restriction that the number of terminal nodes must be less than or equal to the number of non-terminal nodes. This is done to ensure that the initial population is diverse and has a balance of simple and complex individuals. The method then "ramps" the size of the trees by gradually increasing the maximum depth of the trees until the desired size is reached. This gradually increases complexity in the initial population, allowing the GA to explore a wide range of solutions and avoid getting stuck in local optima.
-
+ 
 **Tree depth:** During the implementation, we see that the height of an individual's Function tree significantly impacts its performance. When the tree was too deep, it prone to overfitting, while when it was too shallow, it did not have enough complexity to solve the problem effectively. Ultimately, we choose the initial depth of 2 to 7 after a few different runnings.
 
 ![](RackMultipart20230113-1-ha041_html_a904b3b1e81e1d34.png)
 
-**The evolution:**
-
-**fitness** :
-
+###The evolution:
+ 
+####fitness:
 The fitness function uses us to measure the quality or effectiveness of a particular solution or individual in a population. The fitness function returns a value representing how well an individual's genetically suited to solving a given problem or achieving a specific goal.
 
 In our case, the fitness function is used to evaluate the fitness of each individual in the population. It is typically designed to be specific to solve the problem of predicting the temperature when given a date.
@@ -162,7 +166,7 @@ x, y, z = self.df['x'], self.df['y'], self.df['z']
 
 return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
 
-**Selection:**
+####Selection:
 
 Selection refers to the process of choosing which individuals from a population will be selected to participate in the reproduction process to generate the next generation. The individuals that are selected in our project have better fitness values (in our case, lower fitness values), meaning they are better suited to solving the problem at hand.
 
@@ -178,7 +182,7 @@ We configured the Tournament Selection with a probability of 1.
 
 The selection process is a crucial step in the genetic algorithm as it determines which individuals will pass on their genetic information to the next generation.
 
-**Breeding process:**
+####Breeding process:
 
 We set the hyperparameters for the breeding process:
 
@@ -193,6 +197,7 @@ We defined genetic operators to be applied in each generation:
 (The total of probabilities does not complete to 100% because the operators are applied one after the other, in a linear sequence).
 
 ![](RackMultipart20230113-1-ha041_html_b25c7eb3af573461.png)
+
 
 ## Experiments & Findings
 
