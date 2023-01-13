@@ -119,7 +119,13 @@ The "function set" is the set of all possible internal nodes of the tree.
 Besides the arithmetic functions that we have in EC-Kity, we add the "f_mod" function. Since we wanted to add cyclic elements 
 in our individuals since we know the weather has cyclic elements.
 
-……………………todo: mod function……………………
+```python
+def f_mod(x, y):
+    """x%y"""
+    """protected modulo: if abs(y) > 0.001 return x%y else return 0"""
+    with np.errstate(divide='ignore', invalid='ignore'):
+        return np.where(np.abs(y) > 0.001, np.mod(x, y), 0.)
+```
 
 ### Terminal set:
 
@@ -127,7 +133,9 @@ A "terminal set" is a set of values that do not change and are pre-oriented. The
 the functions in the "function set", and they are used to build the initial population of solutions, which developed.
 <br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables[..........todo complete………………………].
 
-……………………………..to add our terminal set……………….
+```python
+terminal_set = ['month', 'day', 'year', 0, 1, -1, 5, 10]
+```
 
 At the beginning of the implementation, we considered only the [0, 1,-1] constants, but we didn't get good results. The 
 cause was it was hard to generate common temperatures such as 35 celsius since it requiere a high tree, and we got limitations 
@@ -135,7 +143,7 @@ on the tree's height (7). After we added to [10, 5] constants, our results impro
 
 The "terminal set" is the leaves in the tree.
 
-![](./photos/function_tree.png)
+![](./photos/Function_Tree.png)
 <br /> *This diagram represents an example of an individual when the blue squares are nodes from the function set, and 
 the orange circles are leaves from the terminal set.*
 
@@ -164,11 +172,11 @@ its performance. When the tree was too deep, it prone to overfitting, while when
 complexity to solve the problem effectively. Ultimately, we choose the initial depth of 2 to 7 after a few different runnings.
 
 ```python
-Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=_getInitDepth(useDefaultData),
-                                                terminal_set=terminal_set,
-                                                function_set=my_full_function_set,
-                                                bloat_weight=_getBloatWeight(useDefaultData)),
-                      population_size=_getPopulation_size(useDefaultData),
+        Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=get_init_depth(useDefaultData),
+                                                        terminal_set=terminal_set,
+                                                        function_set=function_set,
+                                                        bloat_weight=get_bloat_weight(useDefaultData)),
+                      population_size=get_population_size(useDefaultData),
 ```
 ### The evolution:
 
@@ -191,9 +199,9 @@ higher_is_better=False
 
 We implement the _evaluate_individual method, which evaluates a **fitness** score for an individual:
 ```python
-def _evaluate_individual(self, individual):
-    x, y, z = self.df['x'], self.df['y'], self.df['z']
-    return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
+    def _evaluate_individual(self, individual):
+        month, day, year = self.df['month'], self.df['day'], self.df['year']
+        return np.mean(np.abs(individual.execute(month=month, day=day, year=year) - self.df['target']))
 ```
 
 #### Selection:
