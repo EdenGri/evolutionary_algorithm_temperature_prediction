@@ -47,7 +47,7 @@ In some areas, people use weather forecasts to determine what to wear on a given
 
 In this project we will explore the weather in X and try to forecast the upcoming weather.
 
-##Problem Description
+## Problem Description
 
 **The Problem:** Development of a function that predicts the weather of a given date.
 
@@ -80,9 +80,9 @@ In this project we will explore the weather in X and try to forecast the upcomin
 - Weather is a cyclical process - one of the reasons is that major changes are initiated by changes in the earth's orbit around the sun. The orbital changes occur slowly over time influencing where solar radiation is received on earth's surface during different seasons. By themselves, these changes in the distribution of solar radiation are not strong enough to cause large temperature changes.
 - We decided to predict the weather using the temperature because this is one of the main factors we usually look at when deciding how the weather will be
 
-##Genetic Programming
+## Genetic Programming
 
-###Individual:
+### Individual:
 
 In the evolutionary algorithm, an individual is a single potential solution to a given problem. In our case, the problem 
 is by a given date to predicate the temperature on this date. We want to solve this problem by generating a mathematical 
@@ -90,7 +90,7 @@ function approximating the weather. So our single solution is a mathematical fun
 <br />We represent the mathematical function as a "Function Tree" GP. In the "Function Tree" the inner nodes will be from 
 the "function set" and the leaves from the "terminal set".
 
-###Function set:
+### Function set:
 
 In the context of genetic programming, a "function set" is a set of functions that can be used to build the solution to 
 a given problem. The "function set" is used to build the initial population of solutions, which evolved over time.
@@ -121,7 +121,7 @@ in our individuals since we know the weather has cyclic elements.
 
 ……………………todo: mod function……………………
 
-###Terminal set:
+### Terminal set:
 
 A "terminal set" is a set of values that do not change and are pre-oriented. The "terminal set" can be used as inputs to 
 the functions in the "function set", and they are used to build the initial population of solutions, which developed.
@@ -139,13 +139,13 @@ The "terminal set" is the leaves in the tree.
 <br /> *This diagram represents an example of an individual when the blue squares are nodes from the function set, and 
 the orange circles are leaves from the terminal set.*
 
-###Initialize population:
+### Initialize population:
 
 A population is a group of individuals that are being evolved through the use of genetic algorithms. The population as a 
 whole represents a variety of possible solutions to this problem. 
 <br />Our subpopulation is a collection of "Function Tree" GPs.
 
-####Creating individuals:
+#### Creating individuals:
 In creating the individuals, we have created ramped half and half trees with an init depth of 2 to 7. We added bloat 
 values to slow down the tree's growth, and we chose our population to contain 300 individuals.
 
@@ -170,9 +170,9 @@ Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=_getInitDepth(useDefa
                                                 bloat_weight=_getBloatWeight(useDefaultData)),
                       population_size=_getPopulation_size(useDefaultData),
 ```
-###The evolution:
+### The evolution:
 
-####Fitness:
+#### Fitness:
 The fitness function uses us to measure the quality or effectiveness of a particular solution or individual in a population. 
 The fitness function returns a value representing how well an individual's genetically suited to solving a given problem 
 or achieving a specific goal.
@@ -196,7 +196,7 @@ def _evaluate_individual(self, individual):
     return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
 ```
 
-####Selection:
+#### Selection:
 
 Selection refers to the process of choosing which individuals from a population will be selected to participate in the 
 process to generate the next generation. The individuals that are selected in our project have better fitness values 
@@ -222,7 +222,7 @@ selection_methods=[
 The selection process is a crucial step in the genetic algorithm as it determines which individuals will pass on their 
 genetic information to the next generation.
 
-####Breeding process:
+#### Breeding process:
 
 We set the hyperparameters for the breeding process:
 
@@ -248,7 +248,7 @@ operators_sequence=[
 
 ## Experiments & Findings
 
-## **Choosing the fitness**
+## Choosing the fitness
  In evolutionary algorithms, the fitness value measures how well a particular solution performs in relation to a particular problem. When selecting a fitness value for an evolutionary algorithm, it is important to consider how well the value reflects the desired characteristics of the solution. For example, in our case, the goal is to find a solution, the weather measures for a requested month, that are as close as possible to a particular target value, the average monthly weather graph in the last years.
 
 In the process of choosing the suitable fitness, we examined two different options. The two options are MAE fitness that are differ in there calculation. MAE stands for Mean Absolute Error. In the context of fitness, it may refer to the error or difference between the predicted value of a fitness function and the true value.
@@ -312,7 +312,7 @@ We choose to set the max generation value to 1000. We are aware that increasing 
 
 Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found: ![](RackMultipart20230113-1-ha041_html_84e9c3d2d565d699.png)
 
-##Conclusions
+## Conclusions
 
  In conclusion, our project aimed to investigate the possibility of predicting the weather using an evolution algorithm. Through our research and experimentation, we found that it is indeed possible to predict the weather using this approach. Furthermore, we see potential for extending our algorithm to predict other weather aspects such as precipitation and wind. Our results also highlighted the importance of properly selecting evolution algorithm factors such as fitness, initial depth, terminal set, and maximum generation number as they can have a significant impact on the algorithm's results. Overall, this project has demonstrated the potential of evolution algorithms in the field of weather prediction and opens up new possibilities for further research and development in this area.
 
