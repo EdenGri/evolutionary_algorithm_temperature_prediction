@@ -27,12 +27,12 @@ December 2022
   - [Terminal set](#terminal-set)
   - [Initialize population](#initialize-population)
   - [Creating individuals](#creating-individuals)
-  - [The evolution](#The evolution)
+  - [The evolution](#the-evolution)
     - [Fitness](#fitness)
     - [Selection](#selection)
     - [Breeding process](#breeding-process)
 - [Experiments & Findings](#experiments-&-findings)
-- [Conclusionsn](#conclusionsn)
+- [Conclusions](#conclusions)
 
 ## Introduction
 Our project focuses on predicting the weather using an evaluation algorithm.
@@ -312,7 +312,7 @@ We choose to set the max generation value to 1000. We are aware that increasing 
 
 Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found: ![](RackMultipart20230113-1-ha041_html_84e9c3d2d565d699.png)
 
-## Conclusions
+##Conclusions
 
  In conclusion, our project aimed to investigate the possibility of predicting the weather using an evolution algorithm. Through our research and experimentation, we found that it is indeed possible to predict the weather using this approach. Furthermore, we see potential for extending our algorithm to predict other weather aspects such as precipitation and wind. Our results also highlighted the importance of properly selecting evolution algorithm factors such as fitness, initial depth, terminal set, and maximum generation number as they can have a significant impact on the algorithm's results. Overall, this project has demonstrated the potential of evolution algorithms in the field of weather prediction and opens up new possibilities for further research and development in this area.
 
