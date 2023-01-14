@@ -285,7 +285,7 @@ The terminal set is a set of values or variables that can be used as leaf nodes 
 1. A terminal set with a wider range of constants may be able to represent more complex solutions
 2. A larger number of constants may increase the diversity of the initial population and may result in a more efficient search of the solution space.
 
-We can see in the following chart the chosen terminal set doesn't bring a big change. However, the change made the tree more readable and performanse is better.
+We can see in the following chart the chosen terminal set doesn't bring a big change. However, the change made the tree more readable and bring a better performance.
 
 ![](./photos/findings-terminal-set.png)
 
