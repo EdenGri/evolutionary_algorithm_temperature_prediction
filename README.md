@@ -313,7 +313,7 @@ The maximum generation is a parameter that specifies the maximum number of itera
 2. The maximum generation affects the convergence of the GP algorithm. If the maximum generation is too small, the algorithm may not have enough time to fully explore the solution space and may not converge to a good solution.
 3. The maximum generation influences the diversity of the population of solutions. A larger maximum generation may allow the population to evolve and explore a wider range of solutions, while a smaller maximum generation may result in a less diverse population.
 
-We choose to set the max generation value to 1000. We are aware that increasing this parameter might even get a better results, but we chose not to do this due to resources and running time reasons.
+We choose to set the max generation value to 1000. We are aware that increasing this parameter might even get better results, but we chose not to do this due to resources and running time reasons.
 
 Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found:
 
