@@ -1,8 +1,4 @@
-# Mini – Project
-
-# on
-
-# Evolutionary Algorithm
+# Mini – Project on Evolutionary Algorithm
 
 ## Temperature Prediction
 
@@ -260,13 +256,13 @@ operators_sequence=[
  In evolutionary algorithms, the fitness value measures how well a particular solution performs in relation to a particular problem. When selecting a fitness value for an evolutionary algorithm, it is important to consider how well the value reflects the desired characteristics of the solution. For example, in our case, the goal is to find a solution, the weather measures for a requested month, that are as close as possible to a particular target value, the average monthly weather graph in the last years.
 
 In the process of choosing the suitable fitness, we examined two different options. The two options are MAE fitness that are differ in there calculation. MAE stands for Mean Absolute Error. In the context of fitness, it may refer to the error or difference between the predicted value of a fitness function and the true value.
- 1. Using an average operation in the fitness calculation - we want to minimize the **average** of the differences between the temperature predicted by the algorithm and the real temperature. In other words, higher fitness means high differences, so in that case we set the parameter _higher\_is\_better_ to be false.
+ 1. Using an **average** operation in the fitness calculation - we want to minimize the average of the differences between the temperature predicted by the algorithm and the real temperature. In other words, higher fitness means high differences, so in that case we set the parameter higher_is_better to be false.
 
-2. Using an maximum operation in the fitness calculation - we want to minimize the **maximum** difference between the temperature predicted by the algorithm and the real temperature. In that case case we set the parameter _higher\_is\_better_ to be false as well.
+2. Using an **maximum** operation in the fitness calculation - we want to minimize the maximum difference between the temperature predicted by the algorithm and the real temperature. In that case case we set the parameter higher_is_better to be false as well.
 
 For unsering that question, we ran experiment with 500 generations for each fitness methos. We examined the results of each fitness by comparing them to the real temperature occured in Paris on every month in 2013. As you can notice from the below table, the average fitness was chosen as the best option.
 
-![](RackMultipart20230113-1-ha041_html_4fd57d0919c05d41.png)
+![](./photos/findings-Fitness.png)
 
 **Choosing the initial depth**
 
@@ -279,7 +275,7 @@ Similar to the way of examinding the fitness calculation, the algorithm was test
 
 In the following graph you can see the difference between the findings of the two experiments:
 
-![](RackMultipart20230113-1-ha041_html_8e0676ace727a170.png)
+![](./photos/findings-initial-depth.png)
 
 **Choosing the terminal set**
 
@@ -290,7 +286,7 @@ The terminal set is a set of values or variables that can be used as leaf nodes 
 
 We can see in the following chart the chosen terminal set doesn't bring a big change. However, the change made the tree more readable and performanse is better.
 
-![](RackMultipart20230113-1-ha041_html_cbf602fd49a8ecef.png)
+![](./photos/findings-terminal-set.png)
 
 **Choosing the tournament size**
 
@@ -306,7 +302,7 @@ When choosing tournament size, it is a trade-off between exploration and exploit
 
 In our algorithm, we chose to use a tournament in size 4. A tournament size of 4 allows for a balance between exploration and exploitation, as it allows the algorithm to keep a diverse population while still allowing the best individuals to reproduce.
 
-![](RackMultipart20230113-1-ha041_html_2d12e3403a71c450.png)
+![](./photos/findings-toutnamain-size.png)
 
 **Choosing the maximum generation number**
 
@@ -318,14 +314,25 @@ The maximum generation is a parameter that specifies the maximum number of itera
 
 We choose to set the max generation value to 1000. We are aware that increasing this parameter might even get a better results, but we chose not to do this due to resources and running time reasons.
 
-Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found: ![](RackMultipart20230113-1-ha041_html_84e9c3d2d565d699.png)
+Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found:
+
+![](./photos/findings-max-generation-number.png)
 
 ## Conclusions
 
  In conclusion, our project aimed to investigate the possibility of predicting the weather using an evolution algorithm. Through our research and experimentation, we found that it is indeed possible to predict the weather using this approach. Furthermore, we see potential for extending our algorithm to predict other weather aspects such as precipitation and wind. Our results also highlighted the importance of properly selecting evolution algorithm factors such as fitness, initial depth, terminal set, and maximum generation number as they can have a significant impact on the algorithm's results. Overall, this project has demonstrated the potential of evolution algorithms in the field of weather prediction and opens up new possibilities for further research and development in this area.
 
+
+
+## Bibliography
 https://en.wikipedia.org/wiki/Weather#Forecasting
 
 [https://education.nationalgeographic.org/resource/weather](https://education.nationalgeographic.org/resource/weather)
 
 https://www.fs.usda.gov/ccrc/education/climate-primer/natural-climate-cycles
+
+https://www.sciencedirect.com/topics/computer-science/evolutionary-programming
+
+https://link.springer.com/article/10.1007/s10710-021-09410-y
+
+https://www.sciencedirect.com/science/article/abs/pii/S002002551930578X
