@@ -261,7 +261,7 @@ In the process of choosing the suitable fitness, we examined two different optio
 
 2. Using an **maximum** operation in the fitness calculation - we want to minimize the maximum difference between the temperature predicted by the algorithm and the real temperature. In that case case we set the parameter higher_is_better to be false as well.
 
-For unsering that question, we ran experiment with 500 generations for each fitness methos. We examined the results of each fitness by comparing them to the real temperature occured in Paris on every month in 2013. As you can notice from the below table, the average fitness was chosen as the best option.
+For answering that question, we ran experiment with 500 generations for each fitness methos. We examined the results of each fitness by comparing them to the real temperature occured in Paris on every month in 2013. As you can notice from the below table, the average fitness was chosen as the best option.
 
 ![](./photos/findings-Fitness.png)
 
