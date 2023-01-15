@@ -127,7 +127,7 @@ def f_mod(x, y):
 
 A "terminal set" is a set of values that do not change and are pre-oriented. The "terminal set" can be used as inputs to 
 the functions in the "function set", and they are used to build the initial population of solutions, which developed.
-<br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables[..........todo complete………………………].
+<br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables 'day', 'month', 'year'.
 
 ```python
 terminal_set = ['month', 'day', 'year', 0, 1, -1, 5, 10]
