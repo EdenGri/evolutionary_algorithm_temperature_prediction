@@ -31,6 +31,11 @@ December 2022
     - [Fitness](#fitness)
     - [Selection](#selection)
     - [Breeding process](#breeding-process)
+- [Software Overview](#software-overview)
+  - [User interface](#user-interface)
+  - [Temperature evaluator](#temperature-evaluator)
+  - [Function set Software](#function-set-software)
+  - [Terminal set Software](#terminal-set-software)
 - [Experiments & Findings](#experiments-&-findings)
 - [Conclusions](#conclusions)
 
@@ -245,6 +250,37 @@ operators_sequence=[
     ERCMutation(probability=0.05, arity=1)
 ],
 ```
+## Software Overview
+
+### User interface
+
+**should_use_recommended_settings()** - This function is the user interface that prompts the user to decide whether they want to enter their own settings for evaluating the temperature using an evolutionary algorithm, or if they want to use the default settings. If the user inputs "yes" the function will return to “use_default_settings” False, otherwise it will be True.
+
+**get_init_depth(use_default_data)** - This function gets the initial depth range for the evolutionary algorithm by either using default values or by prompting the user to input values. If the use_default_settings parameter is True, it will return the tuple (2, 7). If it's False, the function will prompt the user to input a minimum and maximum value for the initial depth, and then it will return the tuple of these values (min_depth, max_depth).
+
+**get_bloat_weight(use_default_data)** - This function gets the bloat weight for the evolutionary algorithm by either using a default value or by prompting the user to input a value. If the use_default_settings parameter is True, it will return the value 0.0001. If it's False, the function will prompt the user to input a value for the bloat weight and then it will return the user-inputted value as a float.
+
+**get_population_size(use_default_data)** - This function is defined to get the population size. If the input parameter "use_default_settings " is True, it returns 300 as the population size. If "use_default_settings" is False, it prompts the user to input the population size and returns that value as an integer.
+
+**get_max_generation(use_default_data)** - This function is defined to get the maximum number of generations. If the input parameter "use_default_settings" is True, it returns 500 as the maximum number of generations. If "use_default_settings" is False, it prompts the user to input the maximum number of generations and returns that value as an integer.
+
+**check_temperature_of_dates_from_user()** - This function is defined to check the temperature of dates entered by the user using the function we got from the algorithm. It asks the user to enter dates in the specified format (DD.MM.YYYY) until the user enters "stop". It prints the returned value as expected temperature.
+
+**print_predicted_temperatures_for_year** - The function prints the predicted temperature of each month for the given year parameter. For example :
+
+![](photos/user-interface-output.jpg)
+
+### Temperature evaluator
+
+**__init__ (self)** - This is the initialization method which is the constructor of the class. It reads a CSV file called “temperature_data.csv” as our data with column names: ['month', 'day', 'year', 'target']
+
+**_evaluate_individual(self, individual)** - Takes an "individual" object as an input. Inside the method, it declares three variables "month", "day", and "year" which are assigned to the corresponding columns in a DataFrame named "self.df". Then it calculates the mean absolute difference between the output of the "execute" method of the "individual" object, when given the "month", "day", and "year" variables as inputs, and the "target" column of the "self.df" DataFrame. It returns this mean absolute difference as the result of the method.
+
+### Function set Software
+Exports the function set used by the program.
+
+### Terminal set Software
+Exports the terminal set used by the program.
 
 ## Experiments & Findings
 
