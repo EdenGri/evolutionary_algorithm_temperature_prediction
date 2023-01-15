@@ -27,6 +27,11 @@ December 2022
     - [Fitness](#fitness)
     - [Selection](#selection)
     - [Breeding process](#breeding-process)
+- [Software Overview](#software-overview)
+  - [User interface](#user-interface)
+  - [Temperature evaluator](#temperature-evaluator)
+  - [Function set](#function-set)
+  - [Terminal set](#terminal-set)
 - [Experiments & Findings](#experiments-&-findings)
   - [Choosing the fitness](#choosing-the-fitness)
   - [Choosing the initial depth](#choosing-the-initial-depth)
@@ -132,7 +137,7 @@ def f_mod(x, y):
 
 A "terminal set" is a set of values that do not change and are pre-oriented. The "terminal set" can be used as inputs to 
 the functions in the "function set", and they are used to build the initial population of solutions, which developed.
-<br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables 'day', 'month', 'year'.
+<br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables[..........todo complete………………………].
 
 ```python
 terminal_set = ['month', 'day', 'year', 0, 1, -1, 5, 10]
@@ -254,6 +259,23 @@ operators_sequence=[
     ERCMutation(probability=0.05, arity=1)
 ],
 ```
+## Software Overview
+
+### User interface
+
+**should_use_recommended_settings()** - This function is the user interface that prompts the user to decide whether they want to enter their own settings for evaluating the temperature using an evolutionary algorithm, or if they want to use the default settings. If the user inputs "yes" the function will return to “use_default_settings” False, otherwise it will be True.
+
+**get_init_depth(use_default_data)** - This function gets the initial depth range for the evolutionary algorithm by either using default values or by prompting the user to input values. If the use_default_settings parameter is True, it will return the tuple (2, 7). If it's False, the function will prompt the user to input a minimum and maximum value for the initial depth, and then it will return the tuple of these values (min_depth, max_depth).
+
+**get_bloat_weight(use_default_data)** - This function gets the bloat weight for the evolutionary algorithm by either using a default value or by prompting the user to input a value. If the use_default_settings parameter is True, it will return the value 0.0001. If it's False, the function will prompt the user to input a value for the bloat weight and then it will return the user-inputted value as a float.
+
+**get_population_size(use_default_data)** - This function is defined to get the population size. If the input parameter "use_default_settings " is True, it returns 300 as the population size. If "use_default_settings" is False, it prompts the user to input the population size and returns that value as an integer.
+
+**get_max_generation(use_default_data)** - This function is defined to get the maximum number of generations. If the input parameter "use_default_settings" is True, it returns 500 as the maximum number of generations. If "use_default_settings" is False, it prompts the user to input the maximum number of generations and returns that value as an integer.
+
+**check_temperature_of_dates_from_user()** - This function is defined to check the temperature of dates entered by the user using the function we got from the algorithm. It asks the user to enter dates in the specified format (DD.MM.YYYY) until the user enters "stop". It prints the returned value as expected temperature.
+
+**print_predicted_temperatures_for_year** - The function prints the predicted temperature of each month for the given year parameter :
 
 ## Experiments & Findings
 
