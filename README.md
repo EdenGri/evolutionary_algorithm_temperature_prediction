@@ -28,8 +28,11 @@ December 2022
     - [Selection](#selection)
     - [Breeding process](#breeding-process)
 - [Experiments & Findings](#experiments-&-findings)
-  -[Choosing the fitness](#choosing-the-fitness)
+  - [Choosing the fitness](#choosing-the-fitness)
   - [Choosing the initial depth](#choosing-the-initial-depth)
+  - [Choosing the terminal set](#choosing-the-terminal-set)
+  - [Choosing the tournament size](#choosing-the-tournament-size)
+  - [Choosing the maximum generation number](#choosing-the-maximum-generation-number)
 - [Conclusions](#conclusions)
 
 ## Introduction
