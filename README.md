@@ -57,7 +57,7 @@ In this project we will explore the weather in X and try to forecast the upcomin
 
 **The Problem:** Development of a function that predicts the weather of a given date.
 
-**Our search space:** We took data from \_\_\_\_ of the weather of \_\_\_.
+**Our search space:** We took data of the weather of Paris.
 
 **Weather characteristics:** In general there are six main components, or parts, of weather:
  1. temperature - refers to how hot or cold the atmosphere is.The coldest weather usually happens near the poles, while the warmest weather usually happens near the Equator.
