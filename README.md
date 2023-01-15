@@ -28,6 +28,7 @@ December 2022
     - [Selection](#selection)
     - [Breeding process](#breeding-process)
 - [Experiments & Findings](#experiments-&-findings)
+ -[Choosing the fitness](#choosing-the-fitness)
 - [Conclusions](#conclusions)
 
 ## Introduction
