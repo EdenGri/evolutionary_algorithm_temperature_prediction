@@ -282,7 +282,7 @@ At first, we performed evolutionary experiments with parameters taken from the S
 In the following graph you can see the difference between the findings of the two experiments:
 
 ![](./photos/findings-initial-depth.png)
-
+ 
 ### Choosing the terminal set
 
 The terminal set is a set of values or variables that can be used as leaf nodes in the tree which is a representation of a solution to a problem. We extend the default constances list from (0, 1, -1) to (0, 1, -1, 5, 10). The choice of constants in the terminal set can have a significant impact on the performance of a GP evolutionary algorithm. Here are a few ways in which the constants in the terminal set can affect the algorithm:
