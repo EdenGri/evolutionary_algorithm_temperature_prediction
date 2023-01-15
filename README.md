@@ -1,8 +1,4 @@
-# Mini – Project
-
-# on
-
-# Evolutionary Algorithm
+# Mini – Project on Evolutionary Algorithm
 
 ## Temperature Prediction
 
@@ -37,6 +33,11 @@ December 2022
   - [Function set Software](#function-set-software)
   - [Terminal set Software](#terminal-set-software)
 - [Experiments & Findings](#experiments-&-findings)
+  - [Choosing the fitness](#choosing-the-fitness)
+  - [Choosing the initial depth](#choosing-the-initial-depth)
+  - [Choosing the terminal set](#choosing-the-terminal-set)
+  - [Choosing the tournament size](#choosing-the-tournament-size)
+  - [Choosing the maximum generation number](#choosing-the-maximum-generation-number)
 - [Conclusions](#conclusions)
 
 ## Introduction
@@ -124,7 +125,13 @@ The "function set" is the set of all possible internal nodes of the tree.
 Besides the arithmetic functions that we have in EC-Kity, we add the "f_mod" function. Since we wanted to add cyclic elements 
 in our individuals since we know the weather has cyclic elements.
 
-……………………todo: mod function……………………
+```python
+def f_mod(x, y):
+    """x%y"""
+    """protected modulo: if abs(y) > 0.001 return x%y else return 0"""
+    with np.errstate(divide='ignore', invalid='ignore'):
+        return np.where(np.abs(y) > 0.001, np.mod(x, y), 0.)
+```
 
 ### Terminal set:
 
@@ -132,7 +139,9 @@ A "terminal set" is a set of values that do not change and are pre-oriented. The
 the functions in the "function set", and they are used to build the initial population of solutions, which developed.
 <br /> In our case, the "terminal set" includes constants numbers [0, 1, -1, 5, 10] and the variables[..........todo complete………………………].
 
-……………………………..to add our terminal set……………….
+```python
+terminal_set = ['month', 'day', 'year', 0, 1, -1, 5, 10]
+```
 
 At the beginning of the implementation, we considered only the [0, 1,-1] constants, but we didn't get good results. The 
 cause was it was hard to generate common temperatures such as 35 celsius since it requiere a high tree, and we got limitations 
@@ -140,7 +149,7 @@ on the tree's height (7). After we added to [10, 5] constants, our results impro
 
 The "terminal set" is the leaves in the tree.
 
-![](./photos/function_tree.png)
+![](./photos/Function_Tree.png)
 <br /> *This diagram represents an example of an individual when the blue squares are nodes from the function set, and 
 the orange circles are leaves from the terminal set.*
 
@@ -169,11 +178,11 @@ its performance. When the tree was too deep, it prone to overfitting, while when
 complexity to solve the problem effectively. Ultimately, we choose the initial depth of 2 to 7 after a few different runnings.
 
 ```python
-Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=_getInitDepth(useDefaultData),
-                                                terminal_set=terminal_set,
-                                                function_set=my_full_function_set,
-                                                bloat_weight=_getBloatWeight(useDefaultData)),
-                      population_size=_getPopulation_size(useDefaultData),
+        Subpopulation(creators=RampedHalfAndHalfCreator(init_depth=get_init_depth(useDefaultData),
+                                                        terminal_set=terminal_set,
+                                                        function_set=function_set,
+                                                        bloat_weight=get_bloat_weight(useDefaultData)),
+                      population_size=get_population_size(useDefaultData),
 ```
 ### The evolution:
 
@@ -196,9 +205,9 @@ higher_is_better=False
 
 We implement the _evaluate_individual method, which evaluates a **fitness** score for an individual:
 ```python
-def _evaluate_individual(self, individual):
-    x, y, z = self.df['x'], self.df['y'], self.df['z']
-    return np.mean(np.abs(individual.execute(x=x, y=y, z=z) - self.df['target']))
+    def _evaluate_individual(self, individual):
+        month, day, year = self.df['month'], self.df['day'], self.df['year']
+        return np.mean(np.abs(individual.execute(month=month, day=day, year=year) - self.df['target']))
 ```
 
 #### Selection:
@@ -284,22 +293,23 @@ Exports the terminal set used by the program.
 
 ## Experiments & Findings
 
-## Choosing the fitness
- In evolutionary algorithms, the fitness value measures how well a particular solution performs in relation to a particular problem. When selecting a fitness value for an evolutionary algorithm, it is important to consider how well the value reflects the desired characteristics of the solution. For example, in our case, the goal is to find a solution, the weather measures for a requested month, that are as close as possible to a particular target value, the average monthly weather graph in the last years.
+### Choosing the fitness
+
+In evolutionary algorithms, the fitness value measures how well a particular solution performs in relation to a particular problem. When selecting a fitness value for an evolutionary algorithm, it is important to consider how well the value reflects the desired characteristics of the solution. For example, in our case, the goal is to find a solution, the weather measures for a requested month, that are as close as possible to a particular target value, the average monthly weather graph in the last years.
 
 In the process of choosing the suitable fitness, we examined two different options. The two options are MAE fitness that are differ in there calculation. MAE stands for Mean Absolute Error. In the context of fitness, it may refer to the error or difference between the predicted value of a fitness function and the true value.
- 1. Using an average operation in the fitness calculation - we want to minimize the **average** of the differences between the temperature predicted by the algorithm and the real temperature. In other words, higher fitness means high differences, so in that case we set the parameter _higher\_is\_better_ to be false.
+ 1. Using an **average** operation in the fitness calculation - we want to minimize the average of the differences between the temperature predicted by the algorithm and the real temperature. In other words, higher fitness means high differences, so in that case we set the parameter higher_is_better to be false.
 
-2. Using an maximum operation in the fitness calculation - we want to minimize the **maximum** difference between the temperature predicted by the algorithm and the real temperature. In that case case we set the parameter _higher\_is\_better_ to be false as well.
+2. Using an **maximum** operation in the fitness calculation - we want to minimize the maximum difference between the temperature predicted by the algorithm and the real temperature. In that case case we set the parameter higher_is_better to be false as well.
 
-For unsering that question, we ran experiment with 500 generations for each fitness methos. We examined the results of each fitness by comparing them to the real temperature occured in Paris on every month in 2013. As you can notice from the below table, the average fitness was chosen as the best option.
+For answering that question, we ran experiment with 500 generations for each fitness methos. We examined the results of each fitness by comparing them to the real temperature occured in Paris on every month in 2013. As you can notice from the below table, the average fitness was chosen as the best option.
 
-![](RackMultipart20230113-1-ha041_html_4fd57d0919c05d41.png)
+![](./photos/findings-Fitness.png)
 
-**Choosing the initial depth**
+### Choosing the initial depth
 
-Similar to the way of examinding the fitness calculation, the algorithm was tested by comparing the results to Paris monthly average weather in 2013. We ran with 1000 generations.
- At first, we performed evolutionary experiments with parameters taken from the Symbolic Regression example in the EC-KitY wiki. While running the experiments, we found that changing the init\_depth from (2, 4) to (2, 7) singnifintly improve on the performance and accuracy of the model. The initial depth of a GP tree, also known as the tree depth of the initial population, refers to the maximum depth of the trees in the initial population of solutions generated by the GP algorithm. The initial depth of the GP tree can affect the performance of the evolutionary algorithm in several ways:
+Similar to the way of examining the fitness calculation, in the question of choosing the proper initial depth, the algorithm was tested by comparing the results to Paris's monthly average weather in 2013. We ran with 1000 generations.
+At first, we performed evolutionary experiments with parameters taken from the Symbolic Regression example in the EC-KitY wiki. While running the experiments, we found that changing the init_depth from (2, 4) to (2, 7) singnifintly improve on the performance and accuracy of the model. The initial depth of a GP tree, also known as the tree depth of the initial population, refers to the maximum depth of the trees in the initial population of solutions generated by the GP algorithm. The initial depth of the GP tree can affect the performance of the evolutionary algorithm in several ways:
 
 1. A deeper tree may be able to represent more complex solutions to the problem, which may result in better performance.
 2. A deeper tree may require more computational resources to evaluate and may result in slower convergence of the algorithm. On the other hand, a shallow tree may be faster to evaluate but may be unable to represent complex solutions.
@@ -307,20 +317,20 @@ Similar to the way of examinding the fitness calculation, the algorithm was test
 
 In the following graph you can see the difference between the findings of the two experiments:
 
-![](RackMultipart20230113-1-ha041_html_8e0676ace727a170.png)
-
-**Choosing the terminal set**
+![](./photos/findings-initial-depth.png)
+ 
+### Choosing the terminal set
 
 The terminal set is a set of values or variables that can be used as leaf nodes in the tree which is a representation of a solution to a problem. We extend the default constances list from (0, 1, -1) to (0, 1, -1, 5, 10). The choice of constants in the terminal set can have a significant impact on the performance of a GP evolutionary algorithm. Here are a few ways in which the constants in the terminal set can affect the algorithm:
 
 1. A terminal set with a wider range of constants may be able to represent more complex solutions
 2. A larger number of constants may increase the diversity of the initial population and may result in a more efficient search of the solution space.
 
-We can see in the following chart the chosen terminal set doesn't bring a big change. However, the change made the tree more readable and performanse is better.
+We can see in the following chart the chosen terminal set doesn't bring a big change. However, the change made the tree more readable and bring a better performance.
 
-![](RackMultipart20230113-1-ha041_html_cbf602fd49a8ecef.png)
+![](./photos/findings-terminal-set.png)
 
-**Choosing the tournament size**
+### Choosing the tournament size
 
 The tournament size in an evaluation algorithm refers to the number of individuals that are selected to compete in a tournament to determine which individual will be selected for reproduction.
 
@@ -334,9 +344,9 @@ When choosing tournament size, it is a trade-off between exploration and exploit
 
 In our algorithm, we chose to use a tournament in size 4. A tournament size of 4 allows for a balance between exploration and exploitation, as it allows the algorithm to keep a diverse population while still allowing the best individuals to reproduce.
 
-![](RackMultipart20230113-1-ha041_html_2d12e3403a71c450.png)
+![](./photos/findings-toutnamain-size.png)
 
-**Choosing the maximum generation number**
+### Choosing the maximum generation number
 
 The maximum generation is a parameter that specifies the maximum number of iterations or generations that the GP algorithm will run for. The maximum generation determines the length of the evolutionary process and is an important parameter in a GP evolutionary algorithm and can affect the performance, convergence, and diversity of the solutions:
 
@@ -344,16 +354,27 @@ The maximum generation is a parameter that specifies the maximum number of itera
 2. The maximum generation affects the convergence of the GP algorithm. If the maximum generation is too small, the algorithm may not have enough time to fully explore the solution space and may not converge to a good solution.
 3. The maximum generation influences the diversity of the population of solutions. A larger maximum generation may allow the population to evolve and explore a wider range of solutions, while a smaller maximum generation may result in a less diverse population.
 
-We choose to set the max generation value to 1000. We are aware that increasing this parameter might even get a better results, but we chose not to do this due to resources and running time reasons.
+We choose to set the max generation value to 1000. We are aware that increasing this parameter might even get better results, but we chose not to do this due to resources and running time reasons.
 
-Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found: ![](RackMultipart20230113-1-ha041_html_84e9c3d2d565d699.png)
+Below you can see that there is a direct relationship between the number of generations and the accuracy of the temperature that the algorithm found:
+
+![](./photos/findings-max-generation-number.png)
 
 ## Conclusions
 
  In conclusion, our project aimed to investigate the possibility of predicting the weather using an evolution algorithm. Through our research and experimentation, we found that it is indeed possible to predict the weather using this approach. Furthermore, we see potential for extending our algorithm to predict other weather aspects such as precipitation and wind. Our results also highlighted the importance of properly selecting evolution algorithm factors such as fitness, initial depth, terminal set, and maximum generation number as they can have a significant impact on the algorithm's results. Overall, this project has demonstrated the potential of evolution algorithms in the field of weather prediction and opens up new possibilities for further research and development in this area.
 
+
+
+## Bibliography
 https://en.wikipedia.org/wiki/Weather#Forecasting
 
 [https://education.nationalgeographic.org/resource/weather](https://education.nationalgeographic.org/resource/weather)
 
 https://www.fs.usda.gov/ccrc/education/climate-primer/natural-climate-cycles
+
+https://www.sciencedirect.com/topics/computer-science/evolutionary-programming
+
+https://link.springer.com/article/10.1007/s10710-021-09410-y
+
+https://www.sciencedirect.com/science/article/abs/pii/S002002551930578X
