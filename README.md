@@ -5,8 +5,8 @@
 Submitted by:
 
 Yuval Beker 209026384
- Gil Shmaya 209327303
- Eden Grisaro 316440767
+Gil Shmaya 209327303
+Eden Grisaro 316440767
 
 Course lecturer:
 
